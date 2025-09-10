@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
         required: [true, "Mobile number should be provided"]
     },
 
-    eamil: {
+    email: {
         type: String,
         trim: true,
         required: [true, "Email should be provided"],

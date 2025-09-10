@@ -1,13 +1,16 @@
 const express = require("express");
 const ServerConfig = require('./config/serverConfig');
 const connectDB = require("./config/dbConfig");
-const User = require("./schema/userSchema");
+const userRouter = require("./routes/userRoutes");
 
 const app = express();
 
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
+
+// Routing middlewares
+app.use('/users', userRouter) // Connects the router to the server
 
 app.post("/ping", (req, res) => {
     console.log(req.body);
