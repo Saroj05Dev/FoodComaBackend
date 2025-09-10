@@ -1,6 +1,7 @@
 const express = require("express");
 const ServerConfig = require('./config/serverConfig');
 const connectDB = require("./config/dbConfig");
+const User = require("./schema/userSchema");
 
 const app = express();
 
