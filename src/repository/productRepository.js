@@ -10,6 +10,39 @@ async function createProductRepository(productDetails) {
     }
 }
 
+async function fetchProductsRepository() {
+    try {
+        const product = await Product.find();
+        return product;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+async function fetchProductByIdRepository(productId) {
+    try {
+        const product = await Product.findById(productId);
+        return product;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+async function deleteProductRepository(productId) {
+    try {
+        const product = await Product.findByIdAndDelete(productId);
+        return product;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 module.exports = {
-    createProductRepository
+    createProductRepository,
+    fetchProductsRepository,
+    fetchProductByIdRepository,
+    deleteProductRepository
 }
