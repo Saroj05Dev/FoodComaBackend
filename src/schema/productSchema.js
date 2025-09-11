@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
 
     category: {
         type: String,
-        enum: ["Veg, Non-Veg", "Drinks", "Sides"],
+        enum: ["Veg", "Non-Veg", "Drinks", "Sides"],
         default: "Veg"
     },
 

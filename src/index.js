@@ -8,6 +8,7 @@ const { isLoggedIn } = require("./validation/authValidator");
 const uploader = require('./middlewares/multerMiddleware');
 const cloudinary = require('./config/cloudinaryConfig');
 const fs = require('fs/promises');
+const productRouter = require("./routes/productRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 // Routing middlewares
 app.use('/users', userRouter) // Connects the router to the server
 app.use('/auth', authRouter)
+app.use('/products', productRouter)
 
 app.post("/ping", isLoggedIn, (req, res) => {
     console.log(req.body);
