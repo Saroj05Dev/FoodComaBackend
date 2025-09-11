@@ -1,4 +1,4 @@
-const { createProductService, fetchProductsService, fetchProductByIdService, deleteProductService } = require("../service/productService");
+const { createProductService, fetchProductsService, fetchProductByIdService, deleteProductService, updateProductService } = require("../service/productService");
 
 async function createProduct(req, res) {
     try {
@@ -28,7 +28,7 @@ async function fetchAllProduct(req, res) {
         
         const products = await fetchProductsService();
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: "Product fetched successfully",
             data: products,
@@ -49,10 +49,33 @@ async function fetchSingleProduct(req, res) {
         const { productId } = req.params;
         const product = await fetchProductByIdService(productId);
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: "Product fetched successfully",
             data: product,
+            error: {}
+        })
+    } catch (error) {
+        return res.status(error.statusCode || 500).json({
+            success: false,
+            message: error.message,
+            data: {},
+            error: error
+        })
+    }
+}
+
+async function updateProduct(req, res) {
+    try {
+        const { productId } = req.params;
+        const file = req.file;
+        const dataToBeUpdated = req.body;
+        const updatedData = await updateProductService(productId, dataToBeUpdated, file);
+
+        return res.status(200).json({
+            success: true,
+            message: "Product updated successfully",
+            data: updatedData,
             error: {}
         })
     } catch (error) {
@@ -70,7 +93,7 @@ async function deleteProduct(req, res) {
         const { productId } = req.params;
         const deletedProduct = await deleteProductService(productId);
 
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: "Product deleted successfully",
             data: deletedProduct,
@@ -90,5 +113,6 @@ module.exports = {
     createProduct,
     fetchAllProduct,
     fetchSingleProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }

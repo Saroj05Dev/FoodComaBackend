@@ -30,6 +30,19 @@ async function fetchProductByIdRepository(productId) {
     }
 }
 
+async function updateProductRepository(productId, updatedData) {
+    try {
+        const deletedProduct = await Product.findByIdAndUpdate(productId, updatedData, {
+            new: true,
+            runValidators: true
+        });
+        return deletedProduct;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
 async function deleteProductRepository(productId) {
     try {
         const product = await Product.findByIdAndDelete(productId);
@@ -44,5 +57,6 @@ module.exports = {
     createProductRepository,
     fetchProductsRepository,
     fetchProductByIdRepository,
-    deleteProductRepository
+    deleteProductRepository,
+    updateProductRepository
 }
