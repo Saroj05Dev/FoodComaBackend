@@ -43,6 +43,12 @@ const userSchema = new mongoose.Schema({
             /^(?=.*[A-Z])(?=.*[a-z])(?=.*(\d|\W)).{8,}$/,
             "The password must have at least 8 characters, one uppercase, one lowercase, and one number or special character"
         ]
+    },
+
+    role: {
+        type: String,
+        enum: ["USER", "ADMIN"],
+        default: "USER"
     }
 }, {
     timestamps: true
