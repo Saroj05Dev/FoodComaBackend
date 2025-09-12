@@ -27,6 +27,12 @@ const productSchema = new mongoose.Schema({
         type: String,
     },
 
+    quantity: {
+        type: Number,
+        required: true,
+        default: 10
+    },
+
     imagePublicId: {
         type: String
     },
