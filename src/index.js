@@ -10,6 +10,7 @@ const cloudinary = require('./config/cloudinaryConfig');
 const fs = require('fs/promises');
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
+const orderRouter = require("./routes/orderRoutes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/users', userRouter) // Connects the router to the server
 app.use('/auth', authRouter)
 app.use('/products', productRouter)
 app.use('/carts', cartRouter)
+app.use('/orders', orderRouter)
 
 app.post("/ping", isLoggedIn, (req, res) => {
     console.log(req.body);
