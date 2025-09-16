@@ -5,14 +5,17 @@ const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRouter");
 const cookieParser = require("cookie-parser");
 const { isLoggedIn } = require("./validation/authValidator");
-const uploader = require('./middlewares/multerMiddleware');
-const cloudinary = require('./config/cloudinaryConfig');
-const fs = require('fs/promises');
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
 const orderRouter = require("./routes/orderRoutes");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:5173', // allow to server to accept request our frontend url
+    credentials: true, // allow session cookie from browser to pass through
+}));
 
 app.use(express.json());
 app.use(express.text());

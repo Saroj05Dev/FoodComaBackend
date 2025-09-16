@@ -6,16 +6,20 @@ async function login(req, res) {
     try {
         const response = await loginUser(loginPayload);
 
-        res.cookie("authToken", response, {
+        res.cookie("authToken", response.token, {
             httpOnly: true,
             secure: false,
+            sameSite: "lax",
             maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
         res.status(200).json({
             success: true,
             message: "Logged in successfully",
-            data: {},
+            data: {
+                userRole: response.userRole,
+                userData: response.userData
+            },
             error: {}
         });
     } catch (error) {
@@ -28,9 +32,13 @@ async function login(req, res) {
 }
 
 async function logout(req, res) {
+
+    console.log("Cookies from frontend", req.cookies);
+
     res.cookie("authToken", null, {
             httpOnly: true,
             secure: false,
+            sameSite: "lax",
             maxAge: 0
         })
 
