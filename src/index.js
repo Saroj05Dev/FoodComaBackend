@@ -29,10 +29,11 @@ app.use('/products', productRouter)
 app.use('/carts', cartRouter)
 app.use('/orders', orderRouter)
 
-app.post("/ping", isLoggedIn, (req, res) => {
+app.get("/ping", (req, res) => {
     console.log(req.body);
     return res.json({ message: "pong" });
 })
+
 // Testing Cloudinary
 // app.post('/photo', uploader.single('incomingFile'), async (req, res) => {
 //     console.log(req.file);
