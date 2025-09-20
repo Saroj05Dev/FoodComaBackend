@@ -33,7 +33,7 @@ app.post("/ping", isLoggedIn, (req, res) => {
     console.log(req.body);
     return res.json({ message: "pong" });
 })
-
+// Testing Cloudinary
 // app.post('/photo', uploader.single('incomingFile'), async (req, res) => {
 //     console.log(req.file);
 //     const result = await cloudinary.uploader.upload(req.file.path);
