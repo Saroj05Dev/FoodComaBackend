@@ -3,23 +3,15 @@ const fs = require('fs/promises');
 const { createProductRepository, fetchProductsRepository, fetchProductByIdRepository, deleteProductRepository, updateProductRepository } = require("../repository/productRepository");
 
 async function createProductService(productDetails, file) {
-    
-    if(!file) {
-        throw {message: "Coudn't find file", statusCode: 404}
-    }
+  if (!file) {
+    throw { message: "Couldn't find file", statusCode: 404 };
+  }
 
-    // Upload to cloudinary
-    const result = await cloudinary.uploader.upload(file.path)
-    fs.unlink(file.path) // Remove local file after upload
+  // file.path is already Cloudinary URL when using multer-storage-cloudinary
+  productDetails.image = file.path;
+  productDetails.imagePublicId = file.filename; // public_id comes from CloudinaryStorage
 
-    // Append Cloudinary secure_url to productDetails
-
-    productDetails.image = result.secure_url;
-    productDetails.imagePublicId = result.public_id;
-
-    // Save product in db
-    return await createProductRepository(productDetails)
-
+  return await createProductRepository(productDetails);
 }
 
 async function fetchProductsService() {

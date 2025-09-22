@@ -2,82 +2,86 @@ const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../config/serverConfig");
 const UnauthorizedError = require("../utils/unAuthorisedError");
 
+/**
+ * Middleware to check if user is logged in
+ */
 async function isLoggedIn(req, res, next) {
-    const token = req.cookies["authToken"];
-
-    if(!token) {
-        return res.status(401).json({
-            success: false,
-            data: {},
-            error: "Not authenticated",
-            message: "Not auth token provided"
-        })
-    }
-
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
+        const token = req.cookies?.authToken;
 
-        if(!decoded) {
-            throw new UnauthorizedError();
+        if (!token) {
+            return res.status(401).json({
+                success: false,
+                data: {},
+                error: "No auth token provided",
+                message: "You must be logged in to access this resource",
+            });
         }
 
-        // If reached here, then user is authenticated allow them to access the API
+        const decoded = jwt.verify(token, JWT_SECRET);
 
+        if (!decoded) {
+            throw new UnauthorizedError("Invalid token");
+        }
+
+        // Attach user info to request
         req.user = {
             email: decoded.email,
             id: decoded.id,
-            role: decoded.role
-        }
+            role: decoded.role,
+        };
 
-        next();
+        return next();
     } catch (error) {
-        console.log(error.name);
-        if(error.name === "TokenExpiredError") {
-            res.cookie("authToken", "", {
+        console.log("Auth error:", error.name);
+
+        // Handle expired token explicitly
+        if (error.name === "TokenExpiredError") {
+            res.clearCookie("authToken", {
                 httpOnly: true,
                 sameSite: "lax",
-                secure: false,
-                maxAge: 7 * 24 * 60 * 60 * 1000,
+                secure: process.env.NODE_ENV === "production", // secure only in prod
             });
-            return res.status(200).json({
-                success: true,
-                message: "Log out successfull",
+
+            return res.status(401).json({
+                success: false,
+                message: "Session expired. Please log in again.",
                 error: {},
-                data: {}
+                data: {},
             });
         }
+
         return res.status(401).json({
             success: false,
             data: {},
-            error: error,
-            message: "Not auth token provided"
+            error: error.message || "Unauthorized",
+            message: "Invalid authentication token",
         });
     }
 }
-/**
- * This function checks if the authenticated user is admin or not.
- * Because we'll call is admin after isLoggedIn that's why we'll recieve user details
- */
 
+/**
+ * Middleware to check if user is an admin
+ */
 function isAdmin(req, res, next) {
     const loggedInUser = req.user;
-    console.log(loggedInUser)
-    if(loggedInUser.role === "ADMIN") {
-        next();
-    } else {
-        return res.status(401).json({
+
+    if (!loggedInUser || loggedInUser.role !== "ADMIN") {
+        return res.status(403).json({
             success: false,
             data: {},
             message: "You're not authorized for this action",
             error: {
-                statusCode: 401,
-                reason: "Unauthorized user for this action"
-            }
-        })
+                statusCode: 403,
+                reason: "Forbidden: Admins only",
+            },
+        });
     }
+
+    return next();
 }
 
 module.exports = {
     isLoggedIn,
-    isAdmin
-}
+    isAdmin,
+};

@@ -2,13 +2,14 @@ const express = require("express");
 const { createProduct, fetchAllProduct, fetchSingleProduct, deleteProduct, updateProduct } = require("../controller/productController");
 const { isLoggedIn, isAdmin } = require("../validation/authValidator");
 const uploader = require("../middlewares/multerMiddleware");
+const upload = require("../config/cloudinaryConfig")
 
 const productRouter = express.Router();
 
 productRouter.post('/', 
     isLoggedIn, 
     isAdmin, 
-    uploader.single("image"), 
+    upload.single("image"), 
     createProduct
 );
 
