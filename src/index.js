@@ -12,8 +12,13 @@ const cors = require("cors");
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://foodcomaapp.netlify.app"
+];
+
 app.use(cors({
-    origin: 'https://foodcomaapp.netlify.app', // allow to server to accept request our frontend url
+    origin: allowedOrigins, // allow to server to accept request our frontend url
     credentials: true, // allow session cookie from browser to pass through
 }));
 

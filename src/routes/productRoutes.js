@@ -11,6 +11,7 @@ productRouter.post('/',
     uploader.single("image"), 
     createProduct
 );
+
 productRouter.get('/', isLoggedIn, fetchAllProduct);
 productRouter.get('/:productId', isLoggedIn, fetchSingleProduct);
 productRouter.put('/:productId', uploader.single("image"), isLoggedIn, updateProduct);
