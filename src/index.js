@@ -4,7 +4,6 @@ const connectDB = require("./config/dbConfig");
 const userRouter = require("./routes/userRoutes");
 const authRouter = require("./routes/authRouter");
 const cookieParser = require("cookie-parser");
-const { isLoggedIn } = require("./validation/authValidator");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
 const orderRouter = require("./routes/orderRoutes");
