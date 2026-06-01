@@ -4,7 +4,9 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon src/index.js"
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +23,17 @@
     "mongoose": "^8.18.1",
     "multer": "^2.0.2",
     "multer-storage-cloudinary": "^4.0.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.1.0",
+    "@types/node": "^25.9.1"
   }
 }
