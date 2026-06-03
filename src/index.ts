@@ -2,7 +2,6 @@
 // import ServerConfig from "./config/serverConfig";
 // import connectDB from "./config/dbConfig";
 // import userRouter from "./routes/userRoutes";
-// import authRouter from "./routes/authRouter";
 // import cookieParser from "cookie-parser";
 // import productRouter from "./routes/productRoutes";
 // import cartRouter from "./routes/cartRoutes";
@@ -17,6 +16,7 @@ import ServerConfig from "./config/serverConfig";
 import connectDB from "./config/dbConfig";
 
 import userRouter from "./routes/userRoutes";
+import authRouter from "./routes/authRouter";
 
 const app = express();
 
@@ -45,8 +45,7 @@ app.use(cookieParser());
 
 // Routing middlewares
 app.use("/users", userRouter);
-
-// app.use("/auth", authRouter);
+app.use("/auth", authRouter);
 // app.use("/products", productRouter);
 // app.use("/carts", cartRouter);
 // app.use("/orders", orderRouter);

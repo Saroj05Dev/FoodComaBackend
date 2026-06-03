@@ -57,6 +57,15 @@ async function createUser(req, res) {
                 error: null,
             });
         }
+        if (error.name === "ValidationError") {
+            const messages = Object.values(error.errors).map((err) => err.message);
+            return res.status(400).json({
+                success: false,
+                message: messages[0],
+                data: null,
+                error: null,
+            });
+        }
         return res.status(500).json({
             success: false,
             message: "Internal server error",

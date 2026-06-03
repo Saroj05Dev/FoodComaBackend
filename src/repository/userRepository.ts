@@ -16,3 +16,9 @@ export async function createUser(
 ): Promise<UserDocument> {
   return User.create(userDetails);
 }
+
+export async function findUserWithPassword(
+  filters: Partial<IUser>
+): Promise<UserDocument | null> {
+  return User.findOne(filters).select("+password");
+}
