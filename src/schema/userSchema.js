@@ -58,10 +58,12 @@ const userSchema = new mongoose.Schema({
     timestamps: true
 });
 
-userSchema.pre('save', async function () {
+userSchema.pre('save', async function (next) {
     // Here you can modify your user before it is saved in DB
+    if(!this.isModified('password')) return next(); // If password is not modified then we will skip hashing and move forward
     const hashedPassword = await bcrypt.hash(this.password, 10);
     this.password = hashedPassword;
+    next();
 });
 
 const User = mongoose.model("User", userSchema);
