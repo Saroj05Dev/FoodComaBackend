@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose, { Schema } from "mongoose";
+import { IProduct } from "../types/product.types";
 
-const productSchema = new mongoose.Schema({
+const productSchema = new Schema<IProduct>({
     title: {
         type: String,
         trim: true,
@@ -10,7 +11,7 @@ const productSchema = new mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        required: [true, "Product title is required"],
+        required: [true, "Product description is required"],
     },
 
     category: {
@@ -46,6 +47,6 @@ const productSchema = new mongoose.Schema({
     timestamps: true
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model<IProduct>("Product", productSchema);
 
-module.exports = Product;
+export default Product;

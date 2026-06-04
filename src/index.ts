@@ -3,7 +3,7 @@
 // import connectDB from "./config/dbConfig";
 // import userRouter from "./routes/userRoutes";
 // import cookieParser from "cookie-parser";
-// import productRouter from "./routes/productRoutes";
+import productRouter from "./routes/productRoutes";
 // import cartRouter from "./routes/cartRoutes";
 // import orderRouter from "./routes/orderRoutes";
 // import cors from "cors";
@@ -46,7 +46,7 @@ app.use(cookieParser());
 // Routing middlewares
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
-// app.use("/products", productRouter);
+app.use("/products", productRouter);
 // app.use("/carts", cartRouter);
 // app.use("/orders", orderRouter);
 
