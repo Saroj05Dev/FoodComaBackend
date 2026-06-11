@@ -1,13 +1,4 @@
-// import express from "express";
-// import ServerConfig from "./config/serverConfig";
-// import connectDB from "./config/dbConfig";
-// import userRouter from "./routes/userRoutes";
-// import cookieParser from "cookie-parser";
-import productRouter from "./routes/productRoutes";
-// import cartRouter from "./routes/cartRoutes";
 // import orderRouter from "./routes/orderRoutes";
-// import cors from "cors";
-
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -17,6 +8,8 @@ import connectDB from "./config/dbConfig";
 
 import userRouter from "./routes/userRoutes";
 import authRouter from "./routes/authRouter";
+import productRouter from "./routes/productRoutes";
+import cartRouter from "./routes/cartRoutes";
 
 const app = express();
 
@@ -47,7 +40,7 @@ app.use(cookieParser());
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);
-// app.use("/carts", cartRouter);
+app.use("/carts", cartRouter);
 // app.use("/orders", orderRouter);
 
 app.get("/ping", (req, res) => {

@@ -1,4 +1,5 @@
 // import { createCartRepository } from "../repository/cartRepository";
+import { createCartRepository } from "../repository/cartRepository";
 import {
   createUser,
   findUser,
@@ -30,7 +31,13 @@ export async function registerUser(
 
   const newUser = await createUser(userDetails);
 
-  // await createCartRepository(newUser._id);
+  try {
+    await createCartRepository(newUser._id.toString());
+  } catch (error: any) {
+    console.error("Failed to create cart during registration:", error);
+    // Cart creation failed, but user was created
+    // You might want to handle this differently based on your requirements
+  }
 
   return newUser;
 }
