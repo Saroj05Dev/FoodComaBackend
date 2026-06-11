@@ -1,9 +1,10 @@
-const { createOrderService, fetchOrdersByUserIdService, fetchOrdersByIdService, updateOrderService } = require("../service/orderService");
-const AppError = require("../utils/appError");
+import { createOrderService, fetchOrdersByUserIdService, fetchOrderByIdService, updateOrderService } from "../service/orderService";
+import { ApiError } from "../utils/ApiError";
+import { Request, Response } from "express";
 
-async function createOrder(req, res) {
+export async function createOrder(req: Request, res: Response): Promise<Response> {
     try {
-        const userId = req.user.id;
+        const userId = req.user!.id;
 
         const order = await createOrderService(userId, req.body.paymentMethod);
         return res.status(201).json({
@@ -14,7 +15,7 @@ async function createOrder(req, res) {
         })
     } catch (error) {
         console.log(error);
-        if(error instanceof AppError) {
+        if(error instanceof ApiError) {
             return res.status(error.statusCode).json({
                 success: false,
                 message: error.message,
@@ -31,9 +32,9 @@ async function createOrder(req, res) {
     }
 }
 
-async function FetchAllOrdersCreatedByUser(req, res) {
+export async function FetchAllOrdersCreatedByUser(req: Request, res: Response): Promise<Response> {
     try {
-        const userId = req.user.id;
+        const userId = req.user!.id;
 
         const order = await fetchOrdersByUserIdService(userId);
         return res.status(200).json({
@@ -44,7 +45,7 @@ async function FetchAllOrdersCreatedByUser(req, res) {
         })
     } catch (error) {
         console.log(error);
-        if(error instanceof AppError) {
+        if(error instanceof ApiError) {
             return res.status(error.statusCode).json({
                 success: false,
                 message: error.message,
@@ -61,11 +62,11 @@ async function FetchAllOrdersCreatedByUser(req, res) {
     }
 }
 
-async function FetchOrderById(req, res) {
+export async function FetchOrderById(req: Request, res: Response): Promise<Response> {
     try {
-        const orderId = req.params.orderId;
+        const orderId = req.params.orderId as string;
 
-        const order = await fetchOrdersByIdService(orderId);
+        const order = await fetchOrderByIdService(orderId);
         return res.status(200).json({
             success: true,
             message: "Successfully fetched the order",
@@ -74,7 +75,7 @@ async function FetchOrderById(req, res) {
         })
     } catch (error) {
         console.log(error);
-        if(error instanceof AppError) {
+        if(error instanceof ApiError) {
             return res.status(error.statusCode).json({
                 success: false,
                 message: error.message,
@@ -91,9 +92,9 @@ async function FetchOrderById(req, res) {
     }
 }
 
-async function cancelOrder(req, res) {
+export async function cancelOrder(req: Request, res: Response): Promise<Response> {
     try {
-        const orderId = req.params.orderId;
+        const orderId = req.params.orderId as string;
 
         const order = await updateOrderService(orderId, "CANCELLED");
         return res.status(200).json({
@@ -104,7 +105,7 @@ async function cancelOrder(req, res) {
         })
     } catch (error) {
         console.log(error);
-        if(error instanceof AppError) {
+        if(error instanceof ApiError) {
             return res.status(error.statusCode).json({
                 success: false,
                 message: error.message,
@@ -121,9 +122,9 @@ async function cancelOrder(req, res) {
     }
 }
 
-async function changeOrderStatus(req, res) {
+export async function changeOrderStatus(req: Request, res: Response): Promise<Response> {
     try {
-        const orderId = req.params.orderId;
+        const orderId = req.params.orderId as string;
         const status = req.body.status;
 
         const order = await updateOrderService(orderId, status);
@@ -135,7 +136,7 @@ async function changeOrderStatus(req, res) {
         })
     } catch (error) {
         console.log(error);
-        if(error instanceof AppError) {
+        if(error instanceof ApiError) {
             return res.status(error.statusCode).json({
                 success: false,
                 message: error.message,
@@ -150,12 +151,4 @@ async function changeOrderStatus(req, res) {
             data: {}
         })
     }
-}
-
-module.exports = {
-    createOrder,
-    changeOrderStatus,
-    cancelOrder,
-    FetchOrderById,
-    FetchAllOrdersCreatedByUser
 }

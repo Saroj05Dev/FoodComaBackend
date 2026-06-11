@@ -1,6 +1,6 @@
-const express = require('express');
-const { isLoggedIn, isAdmin } = require('../validation/authValidator');
-const { createOrder, FetchAllOrdersCreatedByUser, FetchOrderById, cancelOrder, changeOrderStatus } = require('../controller/orderController');
+import express from "express";
+import { isLoggedIn, isAdmin } from "../validation/authValidator";
+import { createOrder, FetchAllOrdersCreatedByUser, FetchOrderById, cancelOrder, changeOrderStatus } from "../controller/orderController";
 
 const orderRouter = express.Router();
 
@@ -10,4 +10,4 @@ orderRouter.get('/:orderId', isLoggedIn, FetchOrderById);
 orderRouter.put('/:orderId/cancel', isLoggedIn, cancelOrder);
 orderRouter.put('/:orderId/status', isLoggedIn, isAdmin, changeOrderStatus);
 
-module.exports = orderRouter;
+export default orderRouter;

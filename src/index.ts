@@ -1,4 +1,3 @@
-// import orderRouter from "./routes/orderRoutes";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -10,6 +9,7 @@ import userRouter from "./routes/userRoutes";
 import authRouter from "./routes/authRouter";
 import productRouter from "./routes/productRoutes";
 import cartRouter from "./routes/cartRoutes";
+import orderRouter from "./routes/orderRoutes";
 
 const app = express();
 
@@ -41,7 +41,7 @@ app.use("/users", userRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/carts", cartRouter);
-// app.use("/orders", orderRouter);
+app.use("/orders", orderRouter);
 
 app.get("/ping", (req, res) => {
   console.log(req.body);
