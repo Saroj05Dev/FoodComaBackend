@@ -1,4 +1,6 @@
 import { HydratedDocument } from "mongoose";
+import { z } from "zod";
+import { registerUserSchema } from "../validation/userValidation";
 
 export type UserRole = "USER" | "ADMIN";
 
@@ -16,13 +18,7 @@ export interface IUser {
 
 export type UserDocument = HydratedDocument<IUser>;
 
-export interface RegisterUserDto {
-  firstName: string;
-  lastName?: string;
-  mobileNumber: string;
-  email: string;
-  password: string;
-}
+export type RegisterUserDto = z.infer<typeof registerUserSchema>;
 
 export interface LoginUserDto {
   email: string;
